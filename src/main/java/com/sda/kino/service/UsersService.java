@@ -2,6 +2,7 @@ package com.sda.kino.service;
 
 import com.sda.kino.db.model.User;
 import com.sda.kino.db.repository.UserRepository;
+import com.sda.kino.dto.LoginForm;
 import com.sda.kino.dto.RegistrationForm;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,4 +27,11 @@ public class UsersService {
         user.setEmail(form.getEmail());
         userRepository.save(user);
     }
+
+    public User login(LoginForm loginForm){
+        User user = userRepository.findByLoginAndPassword(loginForm.getLogin(), DigestUtils.sha1Hex(loginForm.getPassword()));
+        return user;
+    }
+
+
 }
